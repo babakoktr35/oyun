@@ -6,196 +6,83 @@
 <title>Batuhan Eylül'ü Kurtarıyor! 🍄</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     background: #1a0a2e;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
     min-height: 100vh;
     font-family: 'Press Start 2P', monospace;
     overflow: hidden;
   }
-
-  #gameWrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-
+  #gameWrapper { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   #hud {
-    width: 800px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 16px;
-    background: rgba(0,0,0,0.6);
-    border: 3px solid #f7c948;
-    border-radius: 4px;
-    color: #fff;
-    font-size: 9px;
-    image-rendering: pixelated;
+    width: 800px; display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 16px; background: rgba(0,0,0,0.6);
+    border: 3px solid #f7c948; border-radius: 4px; color: #fff; font-size: 9px;
   }
-
   #hud .hud-block { display: flex; flex-direction: column; gap: 4px; text-align: center; }
   #hud .hud-label { color: #f7c948; font-size: 7px; }
-  #hud .hud-val { color: #fff; font-size: 11px; }
-
-  #lives-display { display: flex; gap: 6px; align-items: center; }
-  .heart { color: #ff4466; font-size: 14px; }
-
-  #gameCanvas {
-    border: 4px solid #f7c948;
-    border-radius: 4px;
-    display: block;
-    image-rendering: pixelated;
-    cursor: none;
-  }
-
+  #hud .hud-val   { color: #fff; font-size: 11px; }
+  #gameCanvas { border: 4px solid #f7c948; border-radius: 4px; display: block; cursor: none; }
   #screen {
-    position: absolute;
-    top: 49px;
-    left: 0;
-    width: 800px;
-    height: 450px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(10,5,30,0.92);
-    z-index: 10;
-    border: 4px solid #f7c948;
-    border-top: none;
-    border-radius: 0 0 4px 4px;
-    transition: opacity 0.4s;
+    position: absolute; top: 49px; left: 0;
+    width: 800px; height: 450px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: rgba(10,5,30,0.93); z-index: 10;
+    border: 4px solid #f7c948; border-top: none; border-radius: 0 0 4px 4px;
   }
-
-  #screen h1 {
-    font-size: 22px;
-    color: #f7c948;
-    text-shadow: 3px 3px #e02020, 6px 6px #800;
-    margin-bottom: 16px;
-    text-align: center;
-    line-height: 1.6;
-  }
-  #screen p {
-    font-size: 9px;
-    color: #ccc;
-    margin: 6px 0;
-    text-align: center;
-    line-height: 1.8;
-  }
-  #screen .sub {
-    font-size: 8px;
-    color: #aaa;
-    margin-top: 4px;
-  }
-
+  #screen h1 { font-size: 22px; color: #f7c948; text-shadow: 3px 3px #e02020, 6px 6px #800; margin-bottom: 16px; text-align: center; line-height: 1.6; }
+  #screen p  { font-size: 9px; color: #ccc; margin: 6px 0; text-align: center; line-height: 1.8; }
   #startBtn {
-    margin-top: 20px;
-    padding: 14px 32px;
-    background: #e02020;
-    color: #fff;
-    border: none;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 12px;
-    cursor: pointer;
-    border-bottom: 5px solid #800;
-    border-right: 5px solid #800;
-    transition: transform 0.1s;
-    image-rendering: pixelated;
+    margin-top: 20px; padding: 14px 32px;
+    background: #e02020; color: #fff; border: none;
+    font-family: 'Press Start 2P', monospace; font-size: 12px; cursor: pointer;
+    border-bottom: 5px solid #800; border-right: 5px solid #800; transition: transform 0.1s;
   }
-  #startBtn:hover { background: #ff4444; transform: scale(1.05); }
+  #startBtn:hover  { background: #ff4444; transform: scale(1.05); }
   #startBtn:active { transform: translateY(3px); border-bottom-width: 2px; }
-
-  #controls-hint {
-    width: 800px;
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    padding: 6px;
-    color: #888;
-    font-size: 7px;
-  }
-  #controls-hint span { color: #f7c948; }
-
   .pixel-blink { animation: blink 0.9s step-end infinite; }
   @keyframes blink { 50% { opacity: 0; } }
-
-  #mobileControls {
-    display: none;
-    gap: 12px;
-    margin-top: 8px;
-  }
+  #controls-hint { width: 800px; display: flex; justify-content: center; gap: 24px; padding: 6px; color: #888; font-size: 7px; }
+  #controls-hint span { color: #f7c948; }
+  #mobileControls { display: none; gap: 12px; margin-top: 8px; }
   .mBtn {
-    width: 56px; height: 56px;
-    background: rgba(247,201,72,0.2);
-    border: 3px solid #f7c948;
-    border-radius: 8px;
-    color: #f7c948;
-    font-size: 20px;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
+    width: 56px; height: 56px; background: rgba(247,201,72,0.2);
+    border: 3px solid #f7c948; border-radius: 8px; color: #f7c948; font-size: 20px;
+    cursor: pointer; user-select: none; -webkit-user-select: none;
     display: flex; align-items: center; justify-content: center;
   }
   .mBtn:active { background: rgba(247,201,72,0.5); }
-
   @media (max-width: 820px) {
     #gameCanvas, #screen, #hud, #controls-hint { width: 100vw; }
-    #gameCanvas { height: auto; }
     #mobileControls { display: flex; }
   }
 </style>
 </head>
 <body>
-
 <div id="gameWrapper">
   <div id="hud">
-    <div class="hud-block">
-      <div class="hud-label">OYUNCU</div>
-      <div class="hud-val">BATUHAN</div>
-    </div>
-    <div class="hud-block">
-      <div class="hud-label">PUAN</div>
-      <div class="hud-val" id="scoreDisplay">000000</div>
-    </div>
-    <div class="hud-block">
-      <div class="hud-label">HAYAT</div>
-      <div class="hud-val" id="livesDisplay">❤️ ❤️ ❤️</div>
-    </div>
-    <div class="hud-block">
-      <div class="hud-label">DÜNYA</div>
-      <div class="hud-val" id="levelDisplay">1-1</div>
-    </div>
-    <div class="hud-block">
-      <div class="hud-label">SÜRE</div>
-      <div class="hud-val" id="timerDisplay">300</div>
-    </div>
+    <div class="hud-block"><div class="hud-label">OYUNCU</div><div class="hud-val">BATUHAN</div></div>
+    <div class="hud-block"><div class="hud-label">PUAN</div><div class="hud-val" id="scoreDisplay">000000</div></div>
+    <div class="hud-block"><div class="hud-label">HAYAT</div><div class="hud-val" id="livesDisplay">❤️ ❤️ ❤️</div></div>
+    <div class="hud-block"><div class="hud-label">DÜNYA</div><div class="hud-val" id="levelDisplay">1-1</div></div>
+    <div class="hud-block"><div class="hud-label">SÜRE</div><div class="hud-val" id="timerDisplay">300</div></div>
   </div>
-
   <canvas id="gameCanvas" width="800" height="450"></canvas>
-
   <div id="screen">
     <h1>⭐ BATUHAN ⭐<br>EYLÜL'Ü KURTARIYOR!</h1>
     <p>Eylül kötü kral tarafından kaçırıldı!</p>
     <p>Batuhan onu kurtarmak için yola çıktı...</p>
-    <p class="sub">← → Hareket &nbsp;|&nbsp; ↑ veya SPACE Zıpla</p>
+    <p style="font-size:8px;color:#aaa;margin-top:4px">← → Hareket &nbsp;|&nbsp; ↑ veya SPACE Zıpla</p>
     <button id="startBtn">BAŞLA! ▶</button>
-    <p class="pixel-blink" style="margin-top:16px; font-size:8px; color:#f7c948;">Press START</p>
+    <p class="pixel-blink" style="margin-top:16px;font-size:8px;color:#f7c948;">Press START</p>
   </div>
-
   <div id="controls-hint">
     <div>← → <span>Hareket</span></div>
     <div>↑ / SPACE <span>Zıpla</span></div>
     <div>ESC <span>Duraklat</span></div>
   </div>
-
   <div id="mobileControls">
     <button class="mBtn" id="mLeft">◀</button>
     <button class="mBtn" id="mJump">▲</button>
@@ -204,851 +91,706 @@
 </div>
 
 <script>
-// =========================================================
-//  BATUHAN EYLÜL'Ü KURTARIYOR — Full Game Engine
-// =========================================================
-
 const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+const ctx    = canvas.getContext('2d');
 const W = 800, H = 450;
 
-// ── State ─────────────────────────────────────────────────
-let state = 'title'; // title | playing | paused | dead | win | gameover
+// ── State ──────────────────────────────────────────────────
+let state = 'title';
 let score = 0, lives = 3, level = 1, timer = 300;
 let timerInterval = null;
 let keys = {};
-let cameraX = 0;
-let frameCount = 0;
-let particles = [];
-let coins = [];
-let enemies = [];
-let platforms = [];
-let flagPole = null;
-let reachedFlag = false;
-let deathTimer = 0;
+let cameraX = 0, frameCount = 0;
+let particles = [], coins = [], enemies = [], platforms = [];
+let flagPole = null, reachedFlag = false;
+let celebState = null;
 
-// ── Image Assets ──────────────────────────────────────────
+// ── Images ─────────────────────────────────────────────────
 const imgBatuhan = new Image(); imgBatuhan.src = 'batuhan.jpeg';
 const imgEylul   = new Image(); imgEylul.src   = 'eylul.jpeg';
 
-// ── Player ────────────────────────────────────────────────
-const GRAVITY = 0.55;
-const JUMP_FORCE = -13;
-const MOVE_SPEED = 3.8;
+// Off-screen hi-res face canvases (render once, reuse)
+const FACE_RES = 128;
+const offBat = document.createElement('canvas'); offBat.width = offBat.height = FACE_RES;
+const offEyl = document.createElement('canvas'); offEyl.width = offEyl.height = FACE_RES;
+
+function renderOffscreen(img, off) {
+  const c = off.getContext('2d');
+  c.clearRect(0, 0, FACE_RES, FACE_RES);
+  c.imageSmoothingEnabled = true;
+  c.imageSmoothingQuality = 'high';
+  c.beginPath();
+  c.arc(FACE_RES/2, FACE_RES/2, FACE_RES/2 - 2, 0, Math.PI*2);
+  c.clip();
+  c.drawImage(img, 0, 0, FACE_RES, FACE_RES);
+}
+imgBatuhan.onload = () => renderOffscreen(imgBatuhan, offBat);
+imgEylul.onload   = () => renderOffscreen(imgEylul,   offEyl);
+
+// ── Constants ──────────────────────────────────────────────
+const GRAVITY = 0.55, JUMP_FORCE = -13, MOVE_SPEED = 3.8;
+const TILE = 32, GROUND_Y = H - TILE;
+const CW = 52, CH = 60; // character hitbox
 
 let player = {};
-
 function resetPlayer() {
-  player = {
-    x: 80, y: 300,
-    w: 38, h: 42,
-    vx: 0, vy: 0,
-    onGround: false,
-    facingRight: true,
-    jumping: false,
-    running: false,
-    frame: 0,
-    frameTimer: 0,
-    invincible: 0,
-    dead: false,
-  };
+  player = { x:80, y:300, w:CW, h:CH, vx:0, vy:0, onGround:false,
+    facingRight:true, jumping:false, running:false,
+    frame:0, frameTimer:0, invincible:0, dead:false };
 }
 
-// ── Level Builder ─────────────────────────────────────────
-const TILE = 32;
-const GROUND_Y = H - TILE;
-
+// ── Level ──────────────────────────────────────────────────
 function buildLevel(lvl) {
-  coins = [];
-  enemies = [];
-  particles = [];
-  reachedFlag = false;
-  cameraX = 0;
-
-  // Ground
-  platforms = [];
-  const LEN = lvl === 1 ? 70 : lvl === 2 ? 90 : 110;
-
-  // Solid ground with gaps
-  const gaps = lvl === 1
-    ? [[20,22],[35,37],[50,52]]
-    : lvl === 2
-    ? [[15,17],[28,31],[42,45],[60,63],[75,77]]
+  coins=[]; enemies=[]; particles=[];
+  reachedFlag=false; cameraX=0; celebState=null;
+  platforms=[];
+  const LEN = lvl===1?70 : lvl===2?90 : 110;
+  const gaps = lvl===1?[[20,22],[35,37],[50,52]]
+    : lvl===2?[[15,17],[28,31],[42,45],[60,63],[75,77]]
     : [[12,15],[25,28],[38,42],[50,54],[65,68],[80,83],[92,95]];
+  for(let i=0;i<LEN;i++)
+    if(!gaps.some(([a,b])=>i>=a&&i<=b))
+      platforms.push({x:i*TILE,y:GROUND_Y,w:TILE,h:TILE,type:'ground'});
 
-  for (let i = 0; i < LEN; i++) {
-    let inGap = gaps.some(([a,b]) => i >= a && i <= b);
-    if (!inGap) {
-      platforms.push({ x: i*TILE, y: GROUND_Y, w: TILE, h: TILE, type:'ground' });
-    }
-  }
-
-  // Floating platforms
-  const floats = lvl === 1 ? [
-    {x:5,y:10,len:3},{x:10,y:8,len:2},{x:15,y:10,len:4},
-    {x:22,y:9,len:2},{x:27,y:7,len:3},{x:33,y:10,len:2},
-    {x:38,y:8,len:3},{x:45,y:9,len:2},{x:53,y:10,len:3},
-    {x:58,y:7,len:2},{x:62,y:9,len:3},
-  ] : lvl === 2 ? [
-    {x:4,y:9,len:2},{x:9,y:7,len:3},{x:16,y:10,len:2},
-    {x:20,y:8,len:3},{x:26,y:6,len:2},{x:32,y:9,len:3},
-    {x:39,y:7,len:2},{x:46,y:9,len:3},{x:52,y:7,len:2},
-    {x:57,y:10,len:3},{x:64,y:8,len:2},{x:70,y:6,len:3},
+  const floats = lvl===1?[
+    {x:5,y:10,len:3},{x:10,y:8,len:2},{x:15,y:10,len:4},{x:22,y:9,len:2},
+    {x:27,y:7,len:3},{x:33,y:10,len:2},{x:38,y:8,len:3},{x:45,y:9,len:2},
+    {x:53,y:10,len:3},{x:58,y:7,len:2},{x:62,y:9,len:3},
+  ]:lvl===2?[
+    {x:4,y:9,len:2},{x:9,y:7,len:3},{x:16,y:10,len:2},{x:20,y:8,len:3},
+    {x:26,y:6,len:2},{x:32,y:9,len:3},{x:39,y:7,len:2},{x:46,y:9,len:3},
+    {x:52,y:7,len:2},{x:57,y:10,len:3},{x:64,y:8,len:2},{x:70,y:6,len:3},
     {x:78,y:9,len:2},{x:84,y:7,len:3},
-  ] : [
-    {x:4,y:9,len:2},{x:8,y:7,len:2},{x:13,y:10,len:3},
-    {x:18,y:8,len:2},{x:24,y:6,len:3},{x:30,y:9,len:2},
-    {x:35,y:7,len:3},{x:42,y:10,len:2},{x:48,y:8,len:2},
-    {x:55,y:6,len:3},{x:61,y:9,len:2},{x:67,y:7,len:3},
-    {x:74,y:10,len:2},{x:79,y:8,len:3},{x:86,y:6,len:2},
-    {x:91,y:9,len:3},{x:97,y:7,len:2},{x:102,y:10,len:3},
+  ]:[
+    {x:4,y:9,len:2},{x:8,y:7,len:2},{x:13,y:10,len:3},{x:18,y:8,len:2},
+    {x:24,y:6,len:3},{x:30,y:9,len:2},{x:35,y:7,len:3},{x:42,y:10,len:2},
+    {x:48,y:8,len:2},{x:55,y:6,len:3},{x:61,y:9,len:2},{x:67,y:7,len:3},
+    {x:74,y:10,len:2},{x:79,y:8,len:3},{x:86,y:6,len:2},{x:91,y:9,len:3},
+    {x:97,y:7,len:2},{x:102,y:10,len:3},
   ];
-
-  floats.forEach(f => {
-    for (let i = 0; i < f.len; i++) {
-      platforms.push({ x:(f.x+i)*TILE, y:f.y*TILE, w:TILE, h:TILE, type:'brick' });
-    }
-    // Coin on top
-    coins.push({ x:f.x*TILE + (f.len-1)*TILE/2 + 8, y:f.y*TILE - 24, w:14, h:14, collected:false });
+  floats.forEach(f=>{
+    for(let i=0;i<f.len;i++) platforms.push({x:(f.x+i)*TILE,y:f.y*TILE,w:TILE,h:TILE,type:'brick'});
+    coins.push({x:f.x*TILE+(f.len-1)*TILE/2+8,y:f.y*TILE-24,w:14,h:14,collected:false});
   });
-
-  // Enemies (goombas)
-  const eCount = 3 + lvl * 2;
-  for (let i = 0; i < eCount; i++) {
-    const ex = (6 + i*9 + lvl*2) * TILE;
-    enemies.push({
-      x: ex, y: GROUND_Y - 34,
-      w: 34, h: 34,
-      vx: -(0.8 + lvl*0.3 + Math.random()*0.4),
-      onGround: true,
-      dead: false,
-      deadTimer: 0,
-      frame: 0,
-      frameTimer: 0,
-    });
-  }
-
-  // Flag pole at end
-  flagPole = { x: (LEN - 4)*TILE, y: GROUND_Y - 200, w:10, h:200 };
+  for(let i=0;i<3+lvl*2;i++)
+    enemies.push({x:(6+i*9+lvl*2)*TILE,y:GROUND_Y-38,w:38,h:38,
+      vx:-(0.8+lvl*0.3+Math.random()*0.4),onGround:true,dead:false,deadTimer:0,frame:0,frameTimer:0});
+  flagPole={x:(LEN-4)*TILE,y:GROUND_Y-200,w:10,h:200};
 }
 
-// ── AABB Collision ────────────────────────────────────────
-function overlaps(a,b) {
-  return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
+// ── Collision ──────────────────────────────────────────────
+function overlaps(a,b){ return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y; }
+function resolveCollisions(ent,plats){
+  ent.onGround=false;
+  plats.forEach(p=>{
+    if(!overlaps(ent,p))return;
+    const ox=Math.min(ent.x+ent.w,p.x+p.w)-Math.max(ent.x,p.x);
+    const oy=Math.min(ent.y+ent.h,p.y+p.h)-Math.max(ent.y,p.y);
+    if(oy<ox){
+      if(ent.y+ent.h/2<p.y+p.h/2){ent.y=p.y-ent.h;ent.vy=0;ent.onGround=true;}
+      else{ent.y=p.y+p.h;ent.vy=Math.abs(ent.vy)*0.3;}
+    }else{
+      if(ent.x+ent.w/2<p.x+p.w/2)ent.x=p.x-ent.w;
+      else ent.x=p.x+p.w;
+      ent.vx=0;
+    }
+  });
 }
 
-// ── Particle FX ───────────────────────────────────────────
-function spawnParticles(x, y, color, count=8) {
-  for (let i = 0; i < count; i++) {
-    const angle = (Math.PI*2/count)*i + Math.random()*0.5;
-    const speed = 2 + Math.random()*3;
-    particles.push({
-      x, y,
-      vx: Math.cos(angle)*speed,
-      vy: Math.sin(angle)*speed - 2,
-      life: 40 + Math.random()*20,
-      maxLife: 60,
-      color,
-      size: 4 + Math.random()*4,
-    });
+// ── Particles ──────────────────────────────────────────────
+function spawnParticles(x,y,color,count=8){
+  for(let i=0;i<count;i++){
+    const a=(Math.PI*2/count)*i+Math.random()*0.5, s=2+Math.random()*3;
+    particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,
+      life:40+Math.random()*20,maxLife:60,color,size:4+Math.random()*4});
   }
 }
-
-function spawnScorePopup(x, y, text, color='#f7c948') {
-  particles.push({ type:'text', x, y, vy:-1.2, life:50, maxLife:50, text, color });
+function spawnText(x,y,text,color='#f7c948'){
+  particles.push({type:'text',x,y,vy:-1.2,life:50,maxLife:50,text,color});
 }
 
-// ── Draw Helpers ──────────────────────────────────────────
-function drawPixelFace(img, x, y, w, h, dead=false) {
+// ── Draw: crisp face ───────────────────────────────────────
+// Draws the pre-rendered offscreen face centred at (cx,cy) with given radius
+function drawFaceCrisp(offCanvas, cx, cy, r, dead=false){
   ctx.save();
-  if (dead) {
-    ctx.globalAlpha = 0.5;
-    ctx.filter = 'grayscale(100%)';
-  }
-  // Circular clip
-  ctx.beginPath();
-  ctx.arc(x + w/2, y + h/2, w/2, 0, Math.PI*2);
-  ctx.clip();
-  try { ctx.drawImage(img, x, y, w, h); } catch(e) {}
+  if(dead){ ctx.globalAlpha=0.45; ctx.filter='grayscale(100%)'; }
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.clip();
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(offCanvas, cx-r, cy-r, r*2, r*2);
   ctx.restore();
-
-  // Pixel outline
+  // crisp border ring
   ctx.save();
-  ctx.beginPath();
-  ctx.arc(x+w/2, y+h/2, w/2, 0, Math.PI*2);
-  ctx.strokeStyle = dead ? '#444' : '#222';
-  ctx.lineWidth = 2;
-  ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
+  ctx.strokeStyle = dead ? '#444' : 'rgba(0,0,0,0.75)';
+  ctx.lineWidth = 2.5; ctx.stroke();
   ctx.restore();
 }
 
-function drawBatuhan(px, py, facingRight, frame, dead=false, invincible=0) {
-  if (invincible > 0 && Math.floor(invincible/4)%2===0) return;
-
+// ── Draw: Batuhan ──────────────────────────────────────────
+// Face radius = 20px on normal scale → very clear at 40px diameter
+function drawBatuhan(px, py, facingRight, runFrame, dead=false, inv=0, sc=1){
+  if(inv>0 && Math.floor(inv/4)%2===0) return;
+  const w=CW*sc, h=CH*sc;
   ctx.save();
-  if (!facingRight) {
-    ctx.translate(px + player.w, 0);
-    ctx.scale(-1,1);
-    ctx.translate(-px, 0);
-  }
-
-  // Body (red shirt)
-  ctx.fillStyle = '#e02020';
-  ctx.fillRect(px+4, py+16, 30, 26);
-
-  // Pants (blue)
-  ctx.fillStyle = '#2244cc';
-  ctx.fillRect(px+4, py+32, 13, 10);
-  ctx.fillRect(px+21, py+32, 13, 10);
+  if(!facingRight){ ctx.translate(px+w,0); ctx.scale(-1,1); ctx.translate(-px,0); }
 
   // Cap
-  ctx.fillStyle = '#e02020';
-  ctx.fillRect(px+2, py+4, 34, 8);
-  ctx.fillRect(px+6, py, 22, 8);
+  ctx.fillStyle='#e02020';
+  ctx.fillRect(px+2*sc, py+2*sc, (w-4)*sc, 10*sc);
+  ctx.fillRect(px+8*sc,  py-3*sc, (w-20)*sc, 7*sc);
+  // cap visor shadow
+  ctx.fillStyle='#aa0000';
+  ctx.fillRect(px+2*sc, py+10*sc, (w-4)*sc, 3*sc);
 
-  // Face
-  drawPixelFace(imgBatuhan, px+7, py+6, 24, 22, dead);
+  // FACE — 40px diameter, perfectly crisp
+  const fcx = px + w/2;
+  const fcy = py + 17*sc;
+  const fr  = 20*sc;
+  drawFaceCrisp(dead ? offBat : offBat, fcx, fcy, fr, dead);
+
+  // Body / shirt
+  ctx.fillStyle='#e02020';
+  ctx.fillRect(px+5*sc, py+34*sc, (w-10)*sc, 20*sc);
+  // Overalls bib
+  ctx.fillStyle='#2255dd';
+  ctx.fillRect(px+12*sc, py+32*sc, 16*sc, 16*sc);
+  // Overalls legs
+  ctx.fillRect(px+4*sc, py+46*sc, (w/2-5)*sc, 12*sc);
+  ctx.fillRect(px+(w/2+1)*sc, py+46*sc, (w/2-5)*sc, 12*sc);
+  // Overall straps
+  ctx.fillStyle='#2255dd';
+  ctx.fillRect(px+6*sc,  py+33*sc, 4*sc, 4*sc);
+  ctx.fillRect(px+(w-10)*sc, py+33*sc, 4*sc, 4*sc);
 
   // Arms
-  ctx.fillStyle = '#e02020';
-  ctx.fillRect(px, py+16, 5, 14);
-  ctx.fillRect(px+33, py+16, 5, 14);
+  ctx.fillStyle='#e02020';
+  ctx.fillRect(px,          py+34*sc, 5*sc, 14*sc);
+  ctx.fillRect(px+(w-5)*sc, py+34*sc, 5*sc, 14*sc);
+  // Hands
+  ctx.fillStyle='#f5c08a';
+  ctx.fillRect(px,          py+46*sc, 5*sc, 6*sc);
+  ctx.fillRect(px+(w-5)*sc, py+46*sc, 5*sc, 6*sc);
 
   // Shoes
-  const runOffset = frame%2===0 ? 0 : 2;
-  ctx.fillStyle = '#5c3d11';
-  ctx.fillRect(px+2, py+38+runOffset, 14, 6);
-  ctx.fillRect(px+22, py+38-runOffset, 14, 6);
-
-  // Mustache
-  ctx.fillStyle = '#5c3d11';
-  ctx.fillRect(px+10, py+22, 18, 4);
+  const rOff = runFrame%2===0 ? 0 : 3*sc;
+  ctx.fillStyle='#3d2508';
+  ctx.fillRect(px+2*sc,        py+(h-12)*sc+rOff, 20*sc, 10*sc);
+  ctx.fillRect(px+(w-22)*sc,   py+(h-12)*sc-rOff, 20*sc, 10*sc);
 
   ctx.restore();
 }
 
-function drawEylul(px, py) {
+// ── Draw: Eylül ────────────────────────────────────────────
+function drawEylul(px, py, sc=1, flipForCelebration=false){
+  const w=CW*sc, h=CH*sc;
   ctx.save();
+  if(flipForCelebration){ ctx.translate(px+w,0); ctx.scale(-1,1); ctx.translate(-px,0); }
 
-  // Dress (pink)
-  ctx.fillStyle = '#ff69b4';
-  ctx.fillRect(px+4, py+18, 30, 30);
-  // Skirt flare
-  ctx.fillRect(px+1, py+34, 36, 14);
+  // Hair
+  ctx.fillStyle='#c8860a';
+  ctx.fillRect(px+2*sc, py+6*sc, (w-4)*sc, 10*sc);
+  ctx.fillRect(px,          py+14*sc, 5*sc, 12*sc);
+  ctx.fillRect(px+(w-5)*sc, py+14*sc, 5*sc, 12*sc);
 
   // Crown
-  ctx.fillStyle = '#f7c948';
-  ctx.fillRect(px+8, py, 22, 6);
-  ctx.fillRect(px+8, py-6, 4, 8);
-  ctx.fillRect(px+17, py-8, 4, 10);
-  ctx.fillRect(px+24, py-6, 4, 8);
+  ctx.fillStyle='#f7c948';
+  ctx.fillRect(px+7*sc, py+1*sc, (w-14)*sc, 8*sc);
+  ctx.fillRect(px+7*sc,  py-7*sc, 7*sc, 10*sc);
+  ctx.fillRect(px+19*sc, py-9*sc, 7*sc, 12*sc);
+  ctx.fillRect(px+31*sc, py-7*sc, 7*sc, 10*sc);
+  // Crown jewels
+  ctx.fillStyle='#ff2244';
+  ctx.beginPath(); ctx.arc(px+11*sc, py+5*sc, 3*sc, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#00ddff';
+  ctx.beginPath(); ctx.arc(px+22*sc, py+5*sc, 3*sc, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#ff2244';
+  ctx.beginPath(); ctx.arc(px+34*sc, py+5*sc, 3*sc, 0, Math.PI*2); ctx.fill();
 
-  // Face
-  drawPixelFace(imgEylul, px+7, py+4, 24, 24);
+  // FACE — 40px diameter, crisp
+  const fcx = px + w/2;
+  const fcy = py + 19*sc;
+  const fr  = 20*sc;
+  drawFaceCrisp(offEyl, fcx, fcy, fr);
+
+  // Dress
+  ctx.fillStyle='#ff69b4';
+  ctx.fillRect(px+5*sc, py+36*sc, (w-10)*sc, 18*sc);
+  // Skirt flare
+  ctx.fillStyle='#ff4da6';
+  ctx.fillRect(px, py+50*sc, w*sc, 8*sc);
+  // Dress trim
+  ctx.fillStyle='#fff';
+  ctx.fillRect(px, py+56*sc, w*sc, 3*sc);
 
   // Arms
-  ctx.fillStyle = '#ff69b4';
-  ctx.fillRect(px, py+18, 5, 14);
-  ctx.fillRect(px+33, py+18, 5, 14);
+  ctx.fillStyle='#ff69b4';
+  ctx.fillRect(px,          py+36*sc, 5*sc, 14*sc);
+  ctx.fillRect(px+(w-5)*sc, py+36*sc, 5*sc, 14*sc);
+  ctx.fillStyle='#f5c08a';
+  ctx.fillRect(px,          py+48*sc, 5*sc, 6*sc);
+  ctx.fillRect(px+(w-5)*sc, py+48*sc, 5*sc, 6*sc);
 
   // Shoes
-  ctx.fillStyle = '#cc0066';
-  ctx.fillRect(px+5, py+46, 12, 6);
-  ctx.fillRect(px+21, py+46, 12, 6);
-
-  // Hair bow
-  ctx.fillStyle = '#ff0066';
-  ctx.fillRect(px+5, py-4, 10, 6);
-  ctx.fillRect(px+23, py-4, 10, 6);
+  ctx.fillStyle='#cc0066';
+  ctx.fillRect(px+3*sc,        py+(h-10)*sc, 16*sc, 10*sc);
+  ctx.fillRect(px+(w-19)*sc,   py+(h-10)*sc, 16*sc, 10*sc);
 
   ctx.restore();
 }
 
-function drawGoomba(e) {
-  const {x,y,w,h,dead,deadTimer,frame} = e;
+// ── Draw: Goomba ───────────────────────────────────────────
+function drawGoomba(e){
+  const {x,y,w,h,dead,deadTimer,frame}=e;
+  const rx=x-cameraX;
   ctx.save();
-  const rx = x - cameraX;
-
-  if (dead) {
-    ctx.globalAlpha = Math.max(0, deadTimer/30);
-    // Squished goomba
-    ctx.fillStyle = '#7a4a00';
-    ctx.fillRect(rx+2, y+h-8, w-4, 8);
+  if(dead){
+    ctx.globalAlpha=Math.max(0,deadTimer/30);
+    ctx.fillStyle='#7a4a00'; ctx.fillRect(rx+2,y+h-8,w-4,8);
     ctx.restore(); return;
   }
-
-  // Body
-  ctx.fillStyle = '#8B4513';
-  ctx.beginPath();
-  ctx.ellipse(rx+w/2, y+h/2+4, w/2-2, h/2, 0, 0, Math.PI*2);
-  ctx.fill();
-
-  // Face
-  ctx.fillStyle = '#d4956a';
-  ctx.beginPath();
-  ctx.ellipse(rx+w/2, y+h/2-2, w/2-5, h/2-6, 0, 0, Math.PI*2);
-  ctx.fill();
-
-  // Eyes
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(rx+6, y+8, 8, 7);
-  ctx.fillRect(rx+w-14, y+8, 8, 7);
-  ctx.fillStyle = '#000';
-  ctx.fillRect(rx+8, y+10, 4, 4);
-  ctx.fillRect(rx+w-12, y+10, 4, 4);
-
-  // Eyebrows (angry)
-  ctx.fillStyle = '#000';
-  ctx.save();
-  ctx.translate(rx+10, y+7); ctx.rotate(-0.3);
-  ctx.fillRect(0,0,8,3); ctx.restore();
-  ctx.save();
-  ctx.translate(rx+w-14, y+7); ctx.rotate(0.3);
-  ctx.fillRect(0,0,8,3); ctx.restore();
-
-  // Feet
-  const footOff = frame%2===0?0:3;
-  ctx.fillStyle = '#333';
-  ctx.fillRect(rx+2, y+h-10+footOff, 10,8);
-  ctx.fillRect(rx+w-12, y+h-10-footOff, 10,8);
-
+  ctx.fillStyle='#8B4513';
+  ctx.beginPath(); ctx.ellipse(rx+w/2,y+h/2+4,w/2-2,h/2,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#d4956a';
+  ctx.beginPath(); ctx.ellipse(rx+w/2,y+h/2-2,w/2-6,h/2-6,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.fillRect(rx+6,y+8,8,7); ctx.fillRect(rx+w-14,y+8,8,7);
+  ctx.fillStyle='#000'; ctx.fillRect(rx+8,y+10,4,4); ctx.fillRect(rx+w-12,y+10,4,4);
+  ctx.save(); ctx.translate(rx+10,y+7); ctx.rotate(-0.3); ctx.fillRect(0,0,8,3); ctx.restore();
+  ctx.save(); ctx.translate(rx+w-14,y+7); ctx.rotate(0.3); ctx.fillRect(0,0,8,3); ctx.restore();
+  const fo=frame%2===0?0:3;
+  ctx.fillStyle='#333'; ctx.fillRect(rx+2,y+h-10+fo,10,8); ctx.fillRect(rx+w-12,y+h-10-fo,10,8);
   ctx.restore();
 }
 
-function drawPlatform(p) {
-  const rx = p.x - cameraX;
-  if (rx > W+TILE || rx < -TILE) return;
-
-  if (p.type==='ground') {
-    // Grass top
-    ctx.fillStyle = '#4a9d3f';
-    ctx.fillRect(rx, p.y, p.w, 8);
-    // Dirt
-    ctx.fillStyle = '#8B6914';
-    ctx.fillRect(rx, p.y+8, p.w, p.h-8);
-    // Pixel details
-    ctx.fillStyle = '#6b4f10';
-    ctx.fillRect(rx+4, p.y+12, 6, 4);
-    ctx.fillRect(rx+18, p.y+18, 6, 4);
-    ctx.fillStyle = '#5a9930';
-    ctx.fillRect(rx+2, p.y+2, 4, 3);
-    ctx.fillRect(rx+14, p.y+1, 6, 4);
-  } else {
-    // Brick
-    ctx.fillStyle = '#c0622a';
-    ctx.fillRect(rx, p.y, p.w, p.h);
-    ctx.fillStyle = '#a0451a';
-    ctx.fillRect(rx+1, p.y+1, p.w-2, p.h-2);
-    // Mortar lines
-    ctx.fillStyle = '#e0835a';
-    ctx.fillRect(rx, p.y, p.w, 3);
-    ctx.fillRect(rx, p.y, 3, p.h);
-    ctx.fillRect(rx, p.y+p.h/2, p.w, 2);
-    ctx.fillRect(rx+p.w/2, p.y, 2, p.h/2);
+// ── Draw: Platform ─────────────────────────────────────────
+function drawPlatform(p){
+  const rx=p.x-cameraX;
+  if(rx>W+TILE||rx<-TILE)return;
+  if(p.type==='ground'){
+    ctx.fillStyle='#4a9d3f'; ctx.fillRect(rx,p.y,p.w,8);
+    ctx.fillStyle='#8B6914'; ctx.fillRect(rx,p.y+8,p.w,p.h-8);
+    ctx.fillStyle='#6b4f10'; ctx.fillRect(rx+4,p.y+12,6,4); ctx.fillRect(rx+18,p.y+18,6,4);
+    ctx.fillStyle='#5a9930'; ctx.fillRect(rx+2,p.y+2,4,3); ctx.fillRect(rx+14,p.y+1,6,4);
+  }else{
+    ctx.fillStyle='#c0622a'; ctx.fillRect(rx,p.y,p.w,p.h);
+    ctx.fillStyle='#a0451a'; ctx.fillRect(rx+1,p.y+1,p.w-2,p.h-2);
+    ctx.fillStyle='#e0835a';
+    ctx.fillRect(rx,p.y,p.w,3); ctx.fillRect(rx,p.y,3,p.h);
+    ctx.fillRect(rx,p.y+p.h/2,p.w,2); ctx.fillRect(rx+p.w/2,p.y,2,p.h/2);
   }
 }
 
-function drawCoin(c) {
-  if (c.collected) return;
-  const rx = c.x - cameraX;
-  if (rx < -20 || rx > W+20) return;
-  const bob = Math.sin(frameCount*0.08 + c.x) * 3;
+// ── Draw: Coin ─────────────────────────────────────────────
+function drawCoin(c){
+  if(c.collected)return;
+  const rx=c.x-cameraX;
+  if(rx<-20||rx>W+20)return;
+  const bob=Math.sin(frameCount*0.08+c.x)*3;
   ctx.save();
-  ctx.fillStyle = '#f7c948';
-  ctx.beginPath();
-  ctx.arc(rx, c.y + bob, 7, 0, Math.PI*2);
-  ctx.fill();
-  ctx.fillStyle = '#ffa500';
-  ctx.beginPath();
-  ctx.arc(rx-1, c.y + bob - 1, 4, 0, Math.PI*2);
-  ctx.fill();
-  ctx.strokeStyle = '#e0a000';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.arc(rx, c.y+bob, 7, 0, Math.PI*2);
-  ctx.stroke();
+  ctx.fillStyle='#f7c948'; ctx.beginPath(); ctx.arc(rx,c.y+bob,7,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#ffa500'; ctx.beginPath(); ctx.arc(rx-1,c.y+bob-1,4,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#e0a000'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.arc(rx,c.y+bob,7,0,Math.PI*2); ctx.stroke();
   ctx.restore();
 }
 
-function drawFlagPole() {
-  if (!flagPole) return;
-  const rx = flagPole.x - cameraX;
-  // Pole
-  ctx.fillStyle = '#ccc';
-  ctx.fillRect(rx + flagPole.w/2 - 2, flagPole.y, 4, flagPole.h);
-  // Flag (pink for Eylül)
-  ctx.fillStyle = '#ff69b4';
-  ctx.fillRect(rx + flagPole.w/2 + 2, flagPole.y, 30, 20);
-  ctx.fillStyle = '#fff';
-  ctx.font = '12px serif';
-  ctx.fillText('E', rx + flagPole.w/2 + 12, flagPole.y + 15);
-  // Ball on top
-  ctx.fillStyle = '#f7c948';
-  ctx.beginPath();
-  ctx.arc(rx + flagPole.w/2, flagPole.y, 6, 0, Math.PI*2);
-  ctx.fill();
+// ── Draw: Flag & Castle ────────────────────────────────────
+function drawFlagPole(){
+  if(!flagPole)return;
+  const rx=flagPole.x-cameraX;
+  ctx.fillStyle='#ccc'; ctx.fillRect(rx+3,flagPole.y,4,flagPole.h);
+  ctx.fillStyle='#ff69b4'; ctx.fillRect(rx+7,flagPole.y,30,20);
+  ctx.fillStyle='#fff'; ctx.font='12px serif'; ctx.fillText('E',rx+17,flagPole.y+15);
+  ctx.fillStyle='#f7c948'; ctx.beginPath(); ctx.arc(rx+5,flagPole.y,6,0,Math.PI*2); ctx.fill();
+}
+function drawCastle(){
+  if(!flagPole)return;
+  const bx=flagPole.x+60-cameraX, by=GROUND_Y-120;
+  if(bx>W+200)return;
+  ctx.fillStyle='#aaa'; ctx.fillRect(bx,by,120,120);
+  for(let i=0;i<4;i++) if(i%2===0){ ctx.fillStyle='#aaa'; ctx.fillRect(bx+i*32,by-22,28,24); }
+  ctx.fillStyle='#333'; ctx.fillRect(bx+42,by+70,36,50);
+  ctx.fillStyle='#555'; ctx.beginPath(); ctx.arc(bx+60,by+70,18,Math.PI,0); ctx.fill();
+  ctx.fillStyle='#333'; ctx.fillRect(bx+15,by+25,20,25); ctx.fillRect(bx+85,by+25,20,25);
 }
 
-// ── Background ────────────────────────────────────────────
-function drawBackground() {
-  // Sky gradient
-  const sky = ctx.createLinearGradient(0,0,0,H);
-  if (level===1) {
-    sky.addColorStop(0,'#5ab4f7');
-    sky.addColorStop(1,'#c8e8ff');
-  } else if (level===2) {
-    sky.addColorStop(0,'#ff8c42');
-    sky.addColorStop(1,'#ffd700');
-  } else {
-    sky.addColorStop(0,'#1a0a2e');
-    sky.addColorStop(1,'#4a0a6e');
-  }
-  ctx.fillStyle = sky;
-  ctx.fillRect(0,0,W,H);
-
-  // Clouds / Stars
-  if (level <= 2) {
-    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    [[100,60,40],[250,40,55],[450,70,35],[600,50,45],[750,60,50]].forEach(([cx,cy,r]) => {
-      const ox = -cameraX*0.2 % W;
-      ctx.beginPath(); ctx.arc((cx+ox)%W, cy, r, 0, Math.PI*2); ctx.fill();
-      ctx.beginPath(); ctx.arc((cx+ox+r*0.8)%W, cy+8, r*0.7, 0, Math.PI*2); ctx.fill();
-      ctx.beginPath(); ctx.arc((cx+ox-r*0.6)%W, cy+10, r*0.6, 0, Math.PI*2); ctx.fill();
+// ── Draw: Background ───────────────────────────────────────
+function drawBackground(){
+  const sky=ctx.createLinearGradient(0,0,0,H);
+  if(level===1){sky.addColorStop(0,'#5ab4f7');sky.addColorStop(1,'#c8e8ff');}
+  else if(level===2){sky.addColorStop(0,'#ff8c42');sky.addColorStop(1,'#ffd700');}
+  else{sky.addColorStop(0,'#1a0a2e');sky.addColorStop(1,'#4a0a6e');}
+  ctx.fillStyle=sky; ctx.fillRect(0,0,W,H);
+  if(level<=2){
+    ctx.fillStyle='rgba(255,255,255,0.85)';
+    [[100,60,40],[250,40,55],[450,70,35],[600,50,45],[750,60,50]].forEach(([cx,cy,r])=>{
+      const ox=(-cameraX*0.2+W*100)%W;
+      ctx.beginPath(); ctx.arc((cx+ox)%W,cy,r,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc((cx+ox+r*0.8)%W,cy+8,r*0.7,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc((cx+ox-r*0.6+W)%W,cy+10,r*0.6,0,Math.PI*2); ctx.fill();
     });
-  } else {
-    // Stars
-    for (let i=0; i<60; i++) {
-      const sx = (i*137 - cameraX*0.05) % W;
-      const sy = (i*73) % (H*0.6);
-      const blink = Math.sin(frameCount*0.05 + i) > 0.7 ? 1 : 0.5;
-      ctx.fillStyle = `rgba(255,255,200,${blink})`;
+  }else{
+    for(let i=0;i<60;i++){
+      const sx=(i*137-cameraX*0.05+W*100)%W, sy=(i*73)%(H*0.6);
+      ctx.fillStyle=`rgba(255,255,200,${Math.sin(frameCount*0.05+i)>0.7?1:0.5})`;
       ctx.fillRect(sx,sy,2,2);
     }
   }
-
-  // Mountains / hills
-  ctx.fillStyle = level===3 ? '#2d0a4e' : '#7ec850';
-  [[0,380,200,80],[200,390,200,60],[500,375,250,90],[750,385,200,65]].forEach(([hx,hy,hw,hh]) => {
-    const ox = -cameraX*0.3;
-    ctx.beginPath();
-    ctx.moveTo((hx+ox)%W, hy+hh);
-    ctx.quadraticCurveTo((hx+ox+hw/2)%W, hy, (hx+ox+hw)%W, hy+hh);
+  ctx.fillStyle=level===3?'#2d0a4e':'#7ec850';
+  [[0,380,200,80],[200,390,200,60],[500,375,250,90],[750,385,200,65]].forEach(([hx,hy,hw,hh])=>{
+    const ox=(-cameraX*0.3+W*100)%W;
+    ctx.beginPath(); ctx.moveTo((hx+ox)%W,hy+hh);
+    ctx.quadraticCurveTo((hx+ox+hw/2)%W,hy,(hx+ox+hw)%W,hy+hh);
     ctx.fill();
   });
 }
 
-// ── Particles Draw ────────────────────────────────────────
-function drawParticles() {
-  particles.forEach(p => {
-    if (p.type==='text') {
-      const alpha = p.life/p.maxLife;
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = p.color;
-      ctx.font = '900 11px "Press Start 2P", monospace';
-      ctx.fillText(p.text, p.x - cameraX, p.y);
-      ctx.restore();
-    } else {
-      const alpha = p.life/p.maxLife;
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = p.color;
-      ctx.fillRect(p.x - cameraX - p.size/2, p.y - p.size/2, p.size, p.size);
-      ctx.restore();
+// ── Draw: Particles ────────────────────────────────────────
+function drawParticles(){
+  particles.forEach(p=>{
+    if(p.type==='text'){
+      ctx.save(); ctx.globalAlpha=p.life/p.maxLife; ctx.fillStyle=p.color;
+      ctx.font='900 11px "Press Start 2P",monospace';
+      ctx.fillText(p.text,p.x-cameraX,p.y); ctx.restore();
+    }else{
+      ctx.save(); ctx.globalAlpha=p.life/p.maxLife; ctx.fillStyle=p.color;
+      ctx.fillRect(p.x-cameraX-p.size/2,p.y-p.size/2,p.size,p.size); ctx.restore();
     }
   });
 }
 
-// ── Eylül Castle (end of level) ───────────────────────────
-function drawCastle() {
-  if (!flagPole) return;
-  const bx = flagPole.x + 60 - cameraX;
-  const by = GROUND_Y - 120;
-  const bw = 120, bh = 120;
-
-  if (bx > W+200) return;
-
-  ctx.fillStyle = '#aaa';
-  ctx.fillRect(bx, by, bw, bh);
-
-  // Battlements
-  for (let i=0; i<4; i++) {
-    ctx.fillStyle = i%2===0?'#aaa':'transparent';
-    ctx.fillRect(bx + i*32, by-22, 28, 24);
-  }
-
-  // Door
-  ctx.fillStyle = '#333';
-  ctx.fillRect(bx+42, by+70, 36, 50);
-  ctx.fillStyle = '#555';
-  ctx.beginPath();
-  ctx.arc(bx+60, by+70, 18, Math.PI, 0);
-  ctx.fill();
-
-  // Windows
-  ctx.fillStyle = '#333';
-  ctx.fillRect(bx+15, by+25, 20, 25);
-  ctx.fillRect(bx+85, by+25, 20, 25);
-
-  // Eylül on tower (if won)
-  if (reachedFlag) {
-    drawEylul(bx+40, by-48);
-  }
-}
-
-// ── UI Overlays ───────────────────────────────────────────
-function updateHUD() {
-  document.getElementById('scoreDisplay').textContent = String(score).padStart(6,'0');
-  document.getElementById('livesDisplay').textContent = '❤️'.repeat(Math.max(0,lives));
-  document.getElementById('levelDisplay').textContent = `${level}-1`;
-  document.getElementById('timerDisplay').textContent = timer;
-}
-
-function showScreen(html, btnText, btnCb) {
-  const s = document.getElementById('screen');
-  s.innerHTML = html + (btnText ? `<button id="startBtn">${btnText}</button>` : '');
-  s.style.display = 'flex';
-  if (btnText) document.getElementById('startBtn').onclick = btnCb;
-}
-
-function hideScreen() {
-  document.getElementById('screen').style.display = 'none';
-}
-
-// ── Physics & Collision ───────────────────────────────────
-function resolveCollisions(entity, plats) {
-  entity.onGround = false;
-  plats.forEach(p => {
-    if (!overlaps(entity, p)) return;
-    const overlapX = Math.min(entity.x+entity.w, p.x+p.w) - Math.max(entity.x, p.x);
-    const overlapY = Math.min(entity.y+entity.h, p.y+p.h) - Math.max(entity.y, p.y);
-    if (overlapY < overlapX) {
-      if (entity.y+entity.h/2 < p.y+p.h/2) {
-        entity.y = p.y - entity.h;
-        entity.vy = 0;
-        entity.onGround = true;
-      } else {
-        entity.y = p.y + p.h;
-        entity.vy = Math.abs(entity.vy)*0.3;
-      }
-    } else {
-      if (entity.x+entity.w/2 < p.x+p.w/2) {
-        entity.x = p.x - entity.w;
-      } else {
-        entity.x = p.x + p.w;
-      }
-      entity.vx = 0;
-    }
-  });
-}
-
-// ── Game Loop ─────────────────────────────────────────────
-function startGame() {
-  score = 0; lives = 3; level = 1; timer = 300;
-  resetPlayer();
-  buildLevel(level);
-  state = 'playing';
-  hideScreen();
-  startTimer();
-  updateHUD();
-}
-
-function nextLevel() {
-  level++;
-  timer = 300;
-  resetPlayer();
-  buildLevel(level);
-  state = 'playing';
-  hideScreen();
-  startTimer();
-  updateHUD();
-}
-
-function startTimer() {
-  if (timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    if (state !== 'playing') return;
-    timer--;
-    updateHUD();
-    if (timer <= 0) killPlayer();
-  }, 1000);
-}
-
-function killPlayer() {
-  if (player.dead) return;
-  player.dead = true;
-  player.vy = -10;
-  player.vx = 0;
-  state = 'dead';
-  lives--;
-  updateHUD();
+// ── CELEBRATION SCENE ──────────────────────────────────────
+function startCelebration(isWin){
   clearInterval(timerInterval);
+  state='celebrate';
+  celebState={
+    timer:0, isWin,
+    batX:-80, eylX:W+80,
+    batY:GROUND_Y-CH, eylY:GROUND_Y-CH,
+    jumpT:0, walkDone:false,
+    heartAlpha:0, heartScale:0,
+    confetti:Array.from({length:50},(_,i)=>({
+      x:Math.random()*W, y:-20-Math.random()*200,
+      vx:(Math.random()-0.5)*2.5, vy:1.5+Math.random()*2.5,
+      color:['#f7c948','#ff69b4','#00ccff','#ff4444','#aaffaa','#ff9900'][i%6],
+      size:6+Math.random()*8, rot:Math.random()*Math.PI*2, rotV:(Math.random()-0.5)*0.15,
+    })),
+  };
+}
 
-  setTimeout(() => {
-    if (lives <= 0) {
-      state = 'gameover';
+function updateCelebration(){
+  const c=celebState; c.timer++;
+  const tBatX=W/2-CW-14, tEylX=W/2+14;
+  if(!c.walkDone){
+    c.batX+=(tBatX-c.batX)*0.055;
+    c.eylX+=(tEylX-c.eylX)*0.055;
+    if(Math.abs(c.batX-tBatX)<2){ c.batX=tBatX; c.eylX=tEylX; c.walkDone=true; }
+  }
+  // Synchronized jump
+  c.jumpT += 0.1;
+  const jump = c.walkDone ? Math.abs(Math.sin(c.jumpT))*60 : 0;
+  c.batY = GROUND_Y-CH-jump;
+  c.eylY = GROUND_Y-CH-jump;
+  // Heart
+  if(c.walkDone){
+    c.heartAlpha=Math.min(1,c.heartAlpha+0.03);
+    c.heartScale=Math.min(1,c.heartScale+0.05);
+  }
+  // Confetti physics
+  c.confetti.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.rot+=p.rotV; if(p.y>H+20)p.y=-20; });
+}
+
+function drawCelebration(){
+  const c=celebState;
+  // Sky
+  const sky=ctx.createLinearGradient(0,0,0,H);
+  if(level===1){sky.addColorStop(0,'#5ab4f7');sky.addColorStop(1,'#c8e8ff');}
+  else if(level===2){sky.addColorStop(0,'#ff8c42');sky.addColorStop(1,'#ffd700');}
+  else{sky.addColorStop(0,'#1a0a2e');sky.addColorStop(1,'#4a0a6e');}
+  ctx.fillStyle=sky; ctx.fillRect(0,0,W,H);
+  // Ground
+  ctx.fillStyle='#4a9d3f'; ctx.fillRect(0,GROUND_Y,W,TILE);
+  ctx.fillStyle='#8B6914'; ctx.fillRect(0,GROUND_Y+8,W,TILE-8);
+
+  // Confetti
+  c.confetti.forEach(p=>{
+    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+    ctx.fillStyle=p.color; ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size);
+    ctx.restore();
+  });
+
+  // Draw Batuhan (facing right toward Eylül)
+  drawBatuhan(c.batX, c.batY, true, Math.floor(c.timer/10)%4, false, 0, 1);
+
+  // Draw Eylül — mirrored so she faces Batuhan
+  ctx.save();
+  ctx.translate(c.eylX + CW, 0); ctx.scale(-1,1); ctx.translate(-c.eylX, 0);
+  drawEylul(c.eylX, c.eylY, 1);
+  ctx.restore();
+
+  // Held hands connector
+  if(c.walkDone){
+    const bHX=c.batX+CW+2, bHY=c.batY+CH*0.73;
+    const eHX=c.eylX-2,    eHY=c.eylY+CH*0.73;
+    // arm reaching out
+    ctx.strokeStyle='#f5c08a'; ctx.lineWidth=6; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(bHX,bHY); ctx.lineTo(eHX,eHY); ctx.stroke();
+    // small hand circles
+    ctx.fillStyle='#f5c08a';
+    ctx.beginPath(); ctx.arc(bHX,bHY,5,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(eHX,eHY,5,0,Math.PI*2); ctx.fill();
+  }
+
+  // Heart pulsing above them
+  if(c.heartAlpha>0){
+    const hx=W/2, hy=c.batY-50+Math.sin(c.jumpT*2)*10;
+    ctx.save();
+    ctx.globalAlpha=c.heartAlpha;
+    ctx.translate(hx,hy);
+    ctx.scale(c.heartScale,c.heartScale);
+    ctx.font='bold 44px serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle='#ff2255';
+    ctx.shadowColor='#ff69b4'; ctx.shadowBlur=20;
+    ctx.fillText('💖',0,0);
+    ctx.restore();
+  }
+
+  // Stars / sparkles around them
+  if(c.walkDone){
+    for(let i=0;i<6;i++){
+      const a=(c.timer*0.04+i*(Math.PI/3));
+      const sx=W/2+Math.cos(a)*90, sy=GROUND_Y-80+Math.sin(a)*30;
+      const ss=Math.sin(c.timer*0.1+i)*3+6;
+      ctx.save(); ctx.globalAlpha=0.6+Math.sin(c.timer*0.1+i)*0.4;
+      ctx.fillStyle='#f7c948';
+      ctx.font=`${ss*2}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('✨',sx,sy); ctx.restore();
+    }
+  }
+
+  // Text
+  if(c.timer>50){
+    ctx.save(); ctx.textAlign='center';
+    if(c.isWin){
+      ctx.fillStyle='#ff69b4'; ctx.font='900 19px "Press Start 2P"';
+      ctx.shadowColor='#000'; ctx.shadowBlur=6;
+      ctx.fillText('TEBRİKLER!',W/2,62);
+      ctx.fillStyle='#f7c948'; ctx.font='10px "Press Start 2P"';
+      ctx.fillText("BATUHAN EYLÜL'Ü KURTARDI!",W/2,88);
+      ctx.fillStyle='#fff'; ctx.font='9px "Press Start 2P"';
+      ctx.fillText(`TOPLAM PUAN: ${String(score).padStart(6,'0')}`,W/2,110);
+    }else{
+      ctx.fillStyle='#f7c948'; ctx.font='900 18px "Press Start 2P"';
+      ctx.shadowColor='#000'; ctx.shadowBlur=6;
+      ctx.fillText(`DÜNYA ${level} BİTTİ! 🌟`,W/2,65);
+      ctx.fillStyle='#fff'; ctx.font='9px "Press Start 2P"';
+      ctx.fillText(`PUAN: ${String(score).padStart(6,'0')}`,W/2,90);
+    }
+    ctx.restore();
+  }
+
+  // Continue prompt
+  if(c.timer>150){
+    ctx.save(); ctx.textAlign='center';
+    ctx.fillStyle=Math.floor(c.timer/22)%2===0?'#f7c948':'rgba(0,0,0,0)';
+    ctx.font='9px "Press Start 2P"';
+    ctx.fillText(c.isWin?'[ TEKRAR OYNA — ENTER ]':'[ DEVAM — ENTER / SPACE ]',W/2,H-20);
+    ctx.restore();
+  }
+}
+
+// ── HUD ────────────────────────────────────────────────────
+function updateHUD(){
+  document.getElementById('scoreDisplay').textContent=String(score).padStart(6,'0');
+  document.getElementById('livesDisplay').textContent='❤️'.repeat(Math.max(0,lives));
+  document.getElementById('levelDisplay').textContent=`${level}-1`;
+  document.getElementById('timerDisplay').textContent=timer;
+}
+function showScreen(html,btnText,btnCb){
+  const s=document.getElementById('screen');
+  s.innerHTML=html+(btnText?`<button id="startBtn">${btnText}</button>`:'');
+  s.style.display='flex';
+  if(btnText)document.getElementById('startBtn').onclick=btnCb;
+}
+function hideScreen(){ document.getElementById('screen').style.display='none'; }
+
+// ── Game ───────────────────────────────────────────────────
+function startGame(){
+  score=0;lives=3;level=1;timer=300;
+  resetPlayer();buildLevel(level);
+  state='playing';hideScreen();startTimer();updateHUD();
+}
+function nextLevel(){
+  level++;timer=300;
+  resetPlayer();buildLevel(level);
+  state='playing';hideScreen();startTimer();updateHUD();
+}
+function startTimer(){
+  if(timerInterval)clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{
+    if(state!=='playing')return;
+    timer--;updateHUD();if(timer<=0)killPlayer();
+  },1000);
+}
+function killPlayer(){
+  if(player.dead)return;
+  player.dead=true;player.vy=-10;player.vx=0;
+  state='dead';lives--;updateHUD();clearInterval(timerInterval);
+  setTimeout(()=>{
+    if(lives<=0){
+      state='gameover';
       showScreen(
         `<h1 style="color:#e02020">GAME OVER</h1>
          <p>Batuhan başaramadı...</p>
-         <p style="color:#f7c948; margin-top:12px">PUAN: ${String(score).padStart(6,'0')}</p>`,
-        'TEKRAR OYNA',
-        startGame
-      );
-    } else {
-      resetPlayer();
-      state = 'playing';
-      startTimer();
-    }
-  }, 1800);
+         <p style="color:#f7c948;margin-top:12px">PUAN: ${String(score).padStart(6,'0')}</p>`,
+        'TEKRAR OYNA',startGame);
+    }else{ resetPlayer();state='playing';startTimer(); }
+  },1800);
 }
 
-function update() {
-  if (state !== 'playing' && state !== 'dead') return;
+// ── Update ─────────────────────────────────────────────────
+function update(){
   frameCount++;
+  if(state==='celebrate'){ updateCelebration(); return; }
+  if(state!=='playing'&&state!=='dead')return;
 
-  // Particles
-  particles.forEach(p => {
-    p.x += p.vx || 0;
-    p.y += p.vy || 0;
-    if (p.vy !== undefined && p.type !== 'text') p.vy += GRAVITY * 0.3;
-    p.life--;
-  });
-  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p=>{ p.x+=p.vx||0; p.y+=p.vy||0; if(p.type!=='text')p.vy+=GRAVITY*0.3; p.life--; });
+  particles=particles.filter(p=>p.life>0);
 
-  // Dead player floats up
-  if (player.dead) {
-    player.y += player.vy;
-    player.vy += GRAVITY;
-    return;
+  if(player.dead){ player.y+=player.vy; player.vy+=GRAVITY; return; }
+
+  const L=keys['ArrowLeft']||keys['a']||keys['A']||mobileKeys.left;
+  const R=keys['ArrowRight']||keys['d']||keys['D']||mobileKeys.right;
+  const J=keys['ArrowUp']||keys[' ']||keys['w']||keys['W']||mobileKeys.jump;
+
+  if(L){player.vx=-MOVE_SPEED;player.facingRight=false;player.running=true;}
+  else if(R){player.vx=MOVE_SPEED;player.facingRight=true;player.running=true;}
+  else{player.vx*=0.6;player.running=false;}
+  if(J&&player.onGround&&!player.jumping){
+    player.vy=JUMP_FORCE;player.onGround=false;player.jumping=true;
+    spawnParticles(player.x+player.w/2,player.y+player.h,'#fff',4);
   }
+  if(!J)player.jumping=false;
+  player.vy+=GRAVITY; if(player.vy>14)player.vy=14;
+  player.x+=player.vx; player.y+=player.vy;
+  resolveCollisions(player,platforms);
+  if(player.x<0){player.x=0;player.vx=0;}
+  if(player.y>H+60)killPlayer();
+  const tCam=player.x-W/3; cameraX+=(tCam-cameraX)*0.12; if(cameraX<0)cameraX=0;
+  if(player.invincible>0)player.invincible--;
+  player.frameTimer++; if(player.frameTimer>8){player.frame=(player.frame+1)%4;player.frameTimer=0;}
 
-  // Player input
-  const left  = keys['ArrowLeft']  || keys['a'] || keys['A'] || mobileKeys.left;
-  const right = keys['ArrowRight'] || keys['d'] || keys['D'] || mobileKeys.right;
-  const jump  = keys['ArrowUp']    || keys[' '] || keys['w'] || keys['W'] || mobileKeys.jump;
-
-  if (left)  { player.vx = -MOVE_SPEED; player.facingRight = false; player.running = true; }
-  else if (right) { player.vx = MOVE_SPEED; player.facingRight = true; player.running = true; }
-  else       { player.vx *= 0.6; player.running = false; }
-
-  if (jump && player.onGround && !player.jumping) {
-    player.vy = JUMP_FORCE;
-    player.onGround = false;
-    player.jumping = true;
-    spawnParticles(player.x + player.w/2, player.y+player.h, '#fff', 4);
-  }
-  if (!jump) player.jumping = false;
-
-  // Gravity
-  player.vy += GRAVITY;
-  if (player.vy > 14) player.vy = 14;
-
-  player.x += player.vx;
-  player.y += player.vy;
-
-  // Platform collision
-  resolveCollisions(player, platforms);
-
-  // Prevent going off left
-  if (player.x < 0) { player.x = 0; player.vx = 0; }
-
-  // Fall into pit
-  if (player.y > H + 40) killPlayer();
-
-  // Camera
-  const targetCamX = player.x - W/3;
-  cameraX += (targetCamX - cameraX) * 0.12;
-  if (cameraX < 0) cameraX = 0;
-
-  // Invincibility
-  if (player.invincible > 0) player.invincible--;
-
-  // Player animation frame
-  player.frameTimer++;
-  if (player.frameTimer > 8) {
-    player.frame = (player.frame+1)%4;
-    player.frameTimer = 0;
-  }
-
-  // Coins
-  coins.forEach(c => {
-    if (c.collected) return;
-    if (overlaps(player, {x:c.x-7, y:c.y-7, w:14, h:14})) {
-      c.collected = true;
-      score += 100;
-      spawnScorePopup(c.x, c.y, '+100');
-      spawnParticles(c.x, c.y, '#f7c948', 6);
-      updateHUD();
+  coins.forEach(c=>{
+    if(c.collected)return;
+    if(overlaps(player,{x:c.x-7,y:c.y-7,w:14,h:14})){
+      c.collected=true;score+=100;spawnText(c.x,c.y,'+100');
+      spawnParticles(c.x,c.y,'#f7c948',6);updateHUD();
     }
   });
 
-  // Enemies
-  enemies.forEach(e => {
-    if (e.dead) {
-      e.deadTimer--;
-      if (e.deadTimer <= 0) e.remove = true;
-      return;
-    }
-    // Move
-    e.x += e.vx;
-    e.y += GRAVITY * 0.5;
-
-    // Goomba platform collision
-    resolveCollisions(e, platforms);
-
-    // Reverse at edges / walls
-    const atEdge = !platforms.some(p =>
-      p.y === GROUND_Y &&
-      p.x < e.x + e.vx + e.w + 4 &&
-      p.x + p.w > e.x + e.vx - 4
-    );
-    if (atEdge || e.x < 0) e.vx *= -1;
-
-    // Enemy animation
-    e.frameTimer++;
-    if (e.frameTimer > 10) { e.frame = (e.frame+1)%2; e.frameTimer=0; }
-
-    // Player vs enemy
-    if (!player.invincible && overlaps(player, {x:e.x+4,y:e.y+4,w:e.w-8,h:e.h-8})) {
-      // Stomp from above
-      if (player.vy > 0 && player.y + player.h < e.y + e.h*0.55) {
-        e.dead = true;
-        e.deadTimer = 30;
-        player.vy = -8;
-        score += 200;
-        spawnScorePopup(e.x, e.y, '+200', '#ff6633');
-        spawnParticles(e.x + e.w/2, e.y + e.h/2, '#8B4513', 8);
-        updateHUD();
-      } else if (player.invincible === 0) {
-        player.invincible = 80;
-        lives--;
-        updateHUD();
-        spawnParticles(player.x+player.w/2, player.y+player.h/2, '#ff0000', 10);
-        if (lives <= 0) killPlayer();
+  enemies.forEach(e=>{
+    if(e.dead){e.deadTimer--;if(e.deadTimer<=0)e.remove=true;return;}
+    e.x+=e.vx;e.y+=GRAVITY*0.5;resolveCollisions(e,platforms);
+    if(!platforms.some(p=>p.y===GROUND_Y&&p.x<e.x+e.vx+e.w+4&&p.x+p.w>e.x+e.vx-4)||e.x<0)e.vx*=-1;
+    e.frameTimer++;if(e.frameTimer>10){e.frame=(e.frame+1)%2;e.frameTimer=0;}
+    if(player.invincible===0&&overlaps(player,{x:e.x+4,y:e.y+4,w:e.w-8,h:e.h-8})){
+      if(player.vy>0&&player.y+player.h<e.y+e.h*0.55){
+        e.dead=true;e.deadTimer=30;player.vy=-8;score+=200;
+        spawnText(e.x,e.y,'+200','#ff6633');spawnParticles(e.x+e.w/2,e.y+e.h/2,'#8B4513',8);updateHUD();
+      }else if(player.invincible===0){
+        player.invincible=80;lives--;updateHUD();
+        spawnParticles(player.x+player.w/2,player.y+player.h/2,'#ff0000',10);
+        if(lives<=0)killPlayer();
       }
     }
   });
-  enemies = enemies.filter(e => !e.remove);
+  enemies=enemies.filter(e=>!e.remove);
 
-  // Flag pole
-  if (flagPole && overlaps(player, {x:flagPole.x, y:flagPole.y, w:flagPole.w+30, h:flagPole.h})) {
-    if (!reachedFlag) {
-      reachedFlag = true;
-      score += timer * 10;
-      clearInterval(timerInterval);
-      spawnParticles(player.x+player.w/2, player.y, '#f7c948', 20);
-      spawnScorePopup(player.x, player.y-20, `+${timer*10}`, '#f7c948');
-      updateHUD();
+  if(flagPole&&!reachedFlag&&overlaps(player,{x:flagPole.x,y:flagPole.y,w:flagPole.w+30,h:flagPole.h})){
+    reachedFlag=true; score+=timer*10;
+    spawnParticles(player.x+player.w/2,player.y,'#f7c948',20);
+    spawnText(player.x,player.y-20,`+${timer*10}`,'#f7c948'); updateHUD();
+    setTimeout(()=>startCelebration(level===3),700);
+  }
+}
 
-      setTimeout(() => {
-        if (level < 3) {
-          showScreen(
-            `<h1 style="color:#f7c948">DÜNYA ${level} BİTTİ!</h1>
-             <p>Harika iş Batuhan! 🌟</p>
-             <p style="color:#aaa; margin-top:8px">Puan: ${String(score).padStart(6,'0')}</p>`,
-            'SONRAKI DÜNYA →',
-            nextLevel
-          );
-        } else {
-          state = 'win';
-          showScreen(
-            `<h1 style="color:#ff69b4">💖 TEBRİKLER! 💖</h1>
-             <h1 style="font-size:13px; margin-top:12px; color:#f7c948">BATUHAN EYLÜL'Ü KURTARDI!</h1>
-             <p style="margin-top:16px">Sonsuz mutluluklar! 🎉</p>
-             <p style="color:#f7c948; font-size:13px; margin-top:8px">TOPLAM PUAN: ${String(score).padStart(6,'0')}</p>`,
-            '🏆 TEKRAR OYNA',
-            startGame
-          );
-        }
-      }, 2000);
+// ── Draw ───────────────────────────────────────────────────
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  if(state==='celebrate'){ drawCelebration(); return; }
+  drawBackground();
+  platforms.forEach(drawPlatform);
+  coins.forEach(drawCoin);
+  drawFlagPole(); drawCastle();
+  enemies.forEach(drawGoomba);
+  drawBatuhan(player.x-cameraX,player.y,player.facingRight,player.running?player.frame:0,player.dead,player.invincible,1);
+  drawParticles();
+  if(state==='paused'){
+    ctx.fillStyle='rgba(0,0,0,0.5)'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#f7c948'; ctx.font='900 24px "Press Start 2P"'; ctx.textAlign='center';
+    ctx.fillText('DURAKLATILDI',W/2,H/2-20);
+    ctx.font='10px "Press Start 2P"'; ctx.fillStyle='#ccc';
+    ctx.fillText('Devam etmek için ESC',W/2,H/2+20); ctx.textAlign='left';
+  }
+}
+
+// ── Loop ───────────────────────────────────────────────────
+function loop(){ update(); draw(); requestAnimationFrame(loop); }
+
+// ── Input ──────────────────────────────────────────────────
+document.addEventListener('keydown',e=>{
+  keys[e.key]=true;
+  if(state==='celebrate'&&celebState&&celebState.timer>150){
+    if(e.key===' '||e.key==='Enter'||e.key==='ArrowUp'){
+      if(celebState.isWin){
+        showScreen(
+          `<h1 style="color:#ff69b4">💖 TEBRİKLER! 💖</h1>
+           <h1 style="font-size:12px;margin-top:12px;color:#f7c948">BATUHAN EYLÜL'Ü KURTARDI!</h1>
+           <p style="margin-top:16px">Sonsuz mutluluklar! 🎉</p>
+           <p style="color:#f7c948;font-size:12px;margin-top:8px">TOPLAM PUAN: ${String(score).padStart(6,'0')}</p>`,
+          '🏆 TEKRAR OYNA',startGame);
+        state='win';
+      }else{ nextLevel(); }
     }
   }
-}
-
-// ── Draw ──────────────────────────────────────────────────
-function draw() {
-  ctx.clearRect(0,0,W,H);
-  drawBackground();
-
-  // Platforms
-  platforms.forEach(drawPlatform);
-
-  // Coins
-  coins.forEach(drawCoin);
-
-  // Flag
-  drawFlagPole();
-  drawCastle();
-
-  // Enemies
-  enemies.forEach(e => drawGoomba(e));
-
-  // Player
-  const px = player.x - cameraX;
-  drawBatuhan(px, player.y, player.facingRight, player.running ? player.frame : 0, player.dead, player.invincible);
-
-  // Particles
-  drawParticles();
-
-  // Pause overlay
-  if (state === 'paused') {
-    ctx.fillStyle = 'rgba(0,0,0,0.5)';
-    ctx.fillRect(0,0,W,H);
-    ctx.fillStyle = '#f7c948';
-    ctx.font = '900 24px "Press Start 2P"';
-    ctx.textAlign = 'center';
-    ctx.fillText('DURAKLATILDI', W/2, H/2-20);
-    ctx.font = '10px "Press Start 2P"';
-    ctx.fillStyle = '#ccc';
-    ctx.fillText('Devam etmek için ESC', W/2, H/2+20);
-    ctx.textAlign = 'left';
-  }
-}
-
-function loop() {
-  update();
-  draw();
-  requestAnimationFrame(loop);
-}
-
-// ── Input ─────────────────────────────────────────────────
-document.addEventListener('keydown', e => {
-  keys[e.key] = true;
-  if (e.key === 'Escape' && state === 'playing') {
-    state = 'paused';
-    showScreen(
-      `<h1>⏸ DURAKLATILDI</h1><p>Devam etmek için ESC basın</p>`,
-      'DEVAM ET',
-      () => { state='playing'; hideScreen(); }
-    );
-  } else if (e.key === 'Escape' && state === 'paused') {
-    state = 'playing';
-    hideScreen();
-  }
-  if ([' ','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+  if(e.key==='Escape'&&state==='playing'){
+    state='paused';
+    showScreen(`<h1>⏸ DURAKLATILDI</h1><p>Devam etmek için ESC basın</p>`,'DEVAM ET',()=>{state='playing';hideScreen();});
+  }else if(e.key==='Escape'&&state==='paused'){state='playing';hideScreen();}
+  if([' ','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))e.preventDefault();
 });
-document.addEventListener('keyup', e => { keys[e.key] = false; });
+document.addEventListener('keyup',e=>{keys[e.key]=false;});
 
-// Mobile controls
-const mobileKeys = { left: false, right: false, jump: false };
-function setupMobile() {
-  const ml = document.getElementById('mLeft');
-  const mr = document.getElementById('mRight');
-  const mj = document.getElementById('mJump');
-  function hold(el, key) {
-    el.addEventListener('touchstart', e => { e.preventDefault(); mobileKeys[key]=true; });
-    el.addEventListener('touchend',   e => { e.preventDefault(); mobileKeys[key]=false; });
-    el.addEventListener('mousedown',  () => mobileKeys[key]=true);
-    el.addEventListener('mouseup',    () => mobileKeys[key]=false);
+canvas.addEventListener('touchstart',()=>{
+  if(state==='celebrate'&&celebState&&celebState.timer>150){
+    if(celebState.isWin){
+      showScreen(
+        `<h1 style="color:#ff69b4">💖 TEBRİKLER! 💖</h1>
+         <h1 style="font-size:12px;margin-top:12px;color:#f7c948">BATUHAN EYLÜL'Ü KURTARDI!</h1>
+         <p style="margin-top:16px">Sonsuz mutluluklar! 🎉</p>
+         <p style="color:#f7c948;font-size:12px;margin-top:8px">TOPLAM PUAN: ${String(score).padStart(6,'0')}</p>`,
+        '🏆 TEKRAR OYNA',startGame);
+      state='win';
+    }else{ nextLevel(); }
   }
-  hold(ml,'left'); hold(mr,'right'); hold(mj,'jump');
+});
+
+const mobileKeys={left:false,right:false,jump:false};
+function setupMobile(){
+  function hold(el,k){
+    el.addEventListener('touchstart',e=>{e.preventDefault();mobileKeys[k]=true;});
+    el.addEventListener('touchend',e=>{e.preventDefault();mobileKeys[k]=false;});
+    el.addEventListener('mousedown',()=>mobileKeys[k]=true);
+    el.addEventListener('mouseup',()=>mobileKeys[k]=false);
+  }
+  hold(document.getElementById('mLeft'),'left');
+  hold(document.getElementById('mRight'),'right');
+  hold(document.getElementById('mJump'),'jump');
 }
 setupMobile();
+document.getElementById('startBtn').onclick=startGame;
 
-// Start button (title screen)
-document.getElementById('startBtn').onclick = startGame;
-
-// Init
 resetPlayer();
 buildLevel(1);
 loop();
